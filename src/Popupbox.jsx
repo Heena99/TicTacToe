@@ -1,13 +1,13 @@
 import React from 'react'
 import { useNavigate } from "react-router-dom";
 
-const Popupbox = ({ visible, reset}) => {
+const Popupbox = ({ visible, reset, winner}) => {
     const navigate = useNavigate();
     if (!visible) return null;
     else return (
         <div className={`fixed inset-0 transition-colors ${visible ? "visible bg-black/80" : "invisible"} flex justify-center items-center`}>
             <div className='bg-[#192A32] w-[25rem] h-56 flex flex-col justify-around items-center p-3'>
-                <div className='text-[#ACC2CD]'>YOU WON!</div>
+                <div className='text-[#ACC2CD]'>{winner} WON!</div>
                 <div className='text-[#F7B336] font-bold text-2xl'>
                     O TAKES THE ROUND
                 </div>

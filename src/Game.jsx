@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Cross from "./assets/Cross.svg";
 import Circle from "./assets/Circle.svg";
 import whitecross from "./assets/whitecross.svg";
@@ -13,6 +13,7 @@ const Game = () => {
     const [pcScore, setPcScore] = useState(0);
     const [tieScore, setTieScore] = useState(0);
     const [openModal, setOpenModal] = useState(false);
+    const [winner, setWinner] = useState("")
 
     function checkWin(play) {
         if (
@@ -43,7 +44,7 @@ const Game = () => {
         });
 
         if(empty.length==0){
-            setOpenModal(true);
+            setWinner("NO ONE")
             setTieScore(tieScore+1);
             return;
         }
@@ -264,7 +265,7 @@ const Game = () => {
             setGrid(newgrid);
             setUserScore(userScore+1);
             console.log("YOU WON");
-            setOpenModal(true)
+            setWinner("YOU")
         } else {
             putPC(newgrid);
         }
@@ -283,8 +284,8 @@ const Game = () => {
         });
         if (checkWin(newgrid)) {
             console.log("PC WON");
+            setWinner("PC")
             setPcScore(pcScore+1)
-            setOpenModal(true)
         }
         setGrid(newgrid);
     }
@@ -293,6 +294,12 @@ const Game = () => {
         setGrid(Array(9).fill(null));
         setOpenModal(false);
     }
+
+    useEffect(() => {
+        if(winner!=""){
+            setOpenModal(true);
+        }
+    }, [winner]);
 
     return (
         <>
@@ -429,7 +436,7 @@ const Game = () => {
                     </button>
                 </div>
             </div>
-            <Popupbox visible={openModal} reset={reset}/>
+            <Popupbox visible={openModal} reset={reset} winner={winner}/>
         </>
     );
 };
